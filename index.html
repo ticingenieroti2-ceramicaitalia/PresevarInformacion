@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio del Equipo</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-transform: capitalize;
+        }
+
+        .card-desc {
+            margin: 0 0 1.5rem 0;
+            color: #475569;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        .card-btn {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-top: auto;
+            transition: background-color 0.2s;
+        }
+
+        .card:hover .card-btn {
+            background-color: #1d4ed8;
+        }
+        
+        .loading {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #64748b;
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Proyectos del Grupo</h1>
+        <p>Actualización automática desde el repositorio</p>
+    </header>
+
+    <main class="container">
+        <div class="projects-grid" id="grid-proyectos">
+            <div class="loading">Buscando proyectos en GitHub...</div>
+        </div>
+    </main>
+
+    <script>
+        /* =========================================================
+         * ¡IMPORTANTE! CONFIGURA ESTAS DOS VARIABLES
+         * ========================================================= */
+        const usuarioGitHub = 'TU_USUARIO_AQUI';      // Ejemplo: 'juanperez'
+        const nombreRepo = 'TU_REPOSITORIO_AQUI';    // Ejemplo: 'mi-portafolio-grupo'
+        const nombreCarpeta = 'proyectos';
+
+        const grid = document.getElementById('grid-proyectos');
+
+        async function cargarProyectos() {
+            try {
+                // Consultamos la API pública de GitHub para ver qué hay en la carpeta
+                const url = `https://api.github.com/repos/${usuarioGitHub}/${nombreRepo}/contents/${nombreCarpeta}`;
+                const respuesta = await fetch(url);
+                
+                if (!respuesta.ok) throw new Error('No se pudo conectar con el repositorio');
+                
+                const archivos = await respuesta.json();
+
+                // Limpiamos el mensaje de "Cargando..."
+                grid.innerHTML = '';
+
+                // Filtramos para que solo lea archivos .html
+                const proyectosHtml = archivos.filter(archivo => archivo.name.endsWith('.html') || archivo.name.endsWith('.htm'));
+
+                if (proyectosHtml.length === 0) {
+                    grid.innerHTML = '<div class="loading">Aún no hay proyectos en la carpeta.</div>';
+                    return;
+                }
+
+                // Por cada archivo, creamos una tarjeta
+                proyectosHtml.forEach(proyecto => {
+                    // Limpiamos el nombre del archivo para usarlo como título (ej: "clon_netflix.html" -> "clon netflix")
+                    let tituloLimpio = proyecto.name
+                        .replace(/\.html?$/, '') // quita el .html
+                        .replace(/[-_]/g, ' ');  // cambia guiones y guiones bajos por espacios
+
+                    const card = document.createElement('a');
+                    card.href = `${nombreCarpeta}/${proyecto.name}`;
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h2 class="card-title">${tituloLimpio}</h2>
+                            <p class="card-desc">Archivo fuente: <strong>${proyecto.name}</strong></p>
+                            <span class="card-btn">Ver Proyecto →</span>
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error(error);
+                grid.innerHTML = `
+                    <div class="loading" style="color: red;">
+                        Error al cargar los proyectos. <br>
+                        Asegúrate de haber puesto bien tu Usuario y Nombre de Repositorio en el código.
+                    </div>
+                `;
+            }
+        }
+
+        // Ejecutar la función
+        cargarProyectos();
+    </script>
+</body>
+</html>
