@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Bienvenido a Nuestro Espacio!</title>
+    <style>
+        /* Variables de color y fuentes */
+        :root {
+            --primary-color: #4f46e5; /* Índigo moderno */
+            --primary-hover: #4338ca;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+        }
+
+        /* Reseteo básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Barra de Navegación */
+        nav {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Sección Principal (Hero) */
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            background: var(--white);
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        /* Botón de Acción */
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: var(--text-main);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Diseño Responsivo (Móviles) */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Oculta los links en móviles para simplificar */
+            }
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">MiSitio</a>
+        <ul class="nav-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="hero-content">
+            <h1>¡Hola! Te damos la bienvenida</h1>
+            <p>Este es un espacio dedicado a compartir ideas, proyectos y construir cosas increíbles. Explora nuestro contenido y descubre todo lo que tenemos para ofrecerte.</p>
+            <a href="#" class="btn">Empezar a explorar</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MiSitio. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
